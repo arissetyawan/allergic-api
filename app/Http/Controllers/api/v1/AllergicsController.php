@@ -3,11 +3,11 @@
 namespace App\Http\Controllers\api\v1;
 
 use Illuminate\Http\Request;
-
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
+use App\Allergic;
 
-class AllergicsController extends BaseController
+class AllergicsController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -16,7 +16,11 @@ class AllergicsController extends BaseController
      */
     public function index()
     {
-        //
+        
+        $allergics = Allergic::paginate(); //select('id', 'name')->get();
+        return response()
+            ->json($allergics,
+            200); 
     }
 
     /**

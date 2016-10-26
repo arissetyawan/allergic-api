@@ -3,10 +3,10 @@
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
-use App\Allergic;
+use App\Allergics;
 use Illuminate\Http\Request;
 
-class AllergicController extends Controller {
+class AllergicsController extends Controller {
 
     /**
      * Create a new controller instance.

@@ -1,12 +1,13 @@
 <?php
 
-namespace App\Http\Controllers\api;
+namespace App\Http\Controllers\api\v2;
 
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
-class BaseController extends Controller
+class AllergicsController extends Controller
 {
+    //
 }

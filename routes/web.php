@@ -16,5 +16,5 @@ Route::get('/', function () {
 });
 
 Auth::routes();
-Route::resource("allergics","AllergicController");
+Route::resource("allergics","AllergicsController");
 Route::get('/home', 'HomeController@index');
