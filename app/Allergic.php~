@@ -23,11 +23,6 @@ class Allergic extends Model
         return !$fails;
     }
 
-    public static function create(array $options = [])
-    {
-        $this->save($options);    
-    }
-
     public function save(array $options = [])
     {
         if($this->validates($options))

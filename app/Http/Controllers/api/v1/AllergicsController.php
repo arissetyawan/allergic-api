@@ -24,21 +24,26 @@ class AllergicsController extends BaseController
 
     public function create(Request $request)
     {
-
         $allergic = new Allergic();
         $input = $request->getContent();
         $input = json_decode($input, true);
-        var_dump($input['allergic']);
-        
-		if($allergic->save($input['allergic'])){
-		   return response()
-		          ->json(["id" => $allergic->id], 200);
-		}
-		return response()
-		        -> json($allergic->errors, 400);
-		 
-		
 
+        if(isset($input['allergic'])){
+            $input = $input['allergic'];
+            $allergic->name = $input['name'];
+            $allergic->avoid = $input['avoid'];
+            $allergic->take_care = $input['take_care'];
+        }          
+        else{
+            $input = array();
+        }
+	    if($allergic->save($input)){
+	       return response()
+	              ->json(array("id" => $allergic->id, "created_at" => $allergic->created_at), 200);
+	    }
+
+		return response()
+		        -> json(array('errors' => $allergic->errors, "message" => 'failed to create'), 400);
     }
 
 
@@ -50,19 +55,16 @@ class AllergicsController extends BaseController
      */
     public function show($id)
     {
-        //
+       $allergic = Allergic::find($id);
+       if(empty($allergic))
+       {
+            return response()
+                -> json(array('message' => 'was not found'), 400);
+       }
+       return response()
+            -> json($allergic, 200);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
 
     /**
      * Update the specified resource in storage.
