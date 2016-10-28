@@ -31,6 +31,18 @@ class AllergicsController extends BaseController
         "take_care": "Asfsaf asfsafsa "
         }
     }
+    see apiary example:
+    
+    curl --include \
+     --request POST \
+     --header "Content-Type: application/json" \
+     --data-binary "{ \"allergic\":
+     {
+    \"name\": \"dingin\",
+    \"avoid\": \"hujan, area dingin dibawah suhu kamar\",
+    \"take_care\": \"gunakan jaket atau ke ruang hangat\",
+    \"updated_at\": \"2016-09-28 12:00\",
+}}" 'http://localhost:8000/api/v1/allergics'
     */
 
     public function create(Request $request)
@@ -100,9 +112,15 @@ class AllergicsController extends BaseController
 
        if(isset($input['allergic'])){
            $input = $input['allergic'];
+           if(isset($input['name'])){
            $allergic->name = $input['name'];
+           }
+           if(isset($input['avoid'])){ 
            $allergic->avoid = $input['avoid'];
+           }
+           if(isset($input['take_care'])){
            $allergic->take_care = $input['take_care'];
+           }
        }          
        else{
            $input = array();
@@ -120,7 +138,7 @@ class AllergicsController extends BaseController
 
     /**
      * Remove the specified resource from storage.
-     *
+     * http://localhost:8000/api/v1/allergics/12
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */

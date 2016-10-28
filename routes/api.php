@@ -24,7 +24,6 @@ Route::group(['namespace' => 'api'], function()
        Route::post('allergics', 'AllergicsController@create');
        Route::delete('allergics/{id}', 'AllergicsController@destroy');
        Route::get('allergics/{id}', 'AllergicsController@show', function($id){});
-       Route::get('allergics/{id}/edit', 'AllergicsController@edit', function($id){});
        Route::put('allergics/{id}/update', 'AllergicsController@update', function($id){});
     });
 
