@@ -1,13 +1,12 @@
 <?php
 
-namespace App\Http\Controllers\api\v1;
+namespace App\Http\Controllers\Api\v1;
 
 use Illuminate\Http\Request;
-use App\Http\Requests;
-use App\Http\Controllers\Controller;
 use App\Allergic;
+use App\Http\Controllers\BaseController;
 
-class AllergicsController extends Controller
+class AllergicsController extends BaseController
 {
     /**
      * Display a listing of the resource.
@@ -23,26 +22,25 @@ class AllergicsController extends Controller
             200); 
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
+    public function create(Request $request)
     {
-        //
+
+        $allergic = new Allergic();
+        $input = $request->getContent();
+        $input = json_decode($input, true);
+        var_dump($input['allergic']);
+        
+		if($allergic->save($input['allergic'])){
+		   return response()
+		          ->json(["id" => $allergic->id], 200);
+		}
+		return response()
+		        -> json($allergic->errors, 400);
+		 
+		
+
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
 
     /**
      * Display the specified resource.
