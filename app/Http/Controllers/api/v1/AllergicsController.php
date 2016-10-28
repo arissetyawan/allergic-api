@@ -1,5 +1,7 @@
 <?php
-
+//follows https://packagist.org/packages/jailtonsc/laravel-response-xml
+// to modify with xml response
+// 
 namespace App\Http\Controllers\Api\v1;
 
 use Illuminate\Http\Request;
@@ -13,9 +15,8 @@ class AllergicsController extends BaseController
      * http://localhost:8000/api/v1/allergics
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $r)
     {
-        
         $allergics = Allergic::paginate(); //select('id', 'name')->get();
         return response()
             ->json($allergics,
