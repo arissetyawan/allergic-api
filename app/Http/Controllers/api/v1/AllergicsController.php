@@ -10,7 +10,7 @@ class AllergicsController extends BaseController
 {
     /**
      * Display a listing of the resource.
-     *
+     * http://localhost:8000/api/v1/allergics
      * @return \Illuminate\Http\Response
      */
     public function index()
@@ -21,6 +21,17 @@ class AllergicsController extends BaseController
             ->json($allergics,
             200); 
     }
+    
+    /*
+    {
+    "allergic":
+        {
+        "name": "asffs fe ef fe s",
+        "avoid": "afsssssssssssssssssa",
+        "take_care": "Asfsaf asfsafsa "
+        }
+    }
+    */
 
     public function create(Request $request)
     {
@@ -52,6 +63,7 @@ class AllergicsController extends BaseController
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
+     * http://localhost:8000/api/v1/allergics/1 
      */
     public function show($id)
     {
@@ -72,10 +84,38 @@ class AllergicsController extends BaseController
      * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
      * @return \Illuminate\Http\Response
+     * http://localhost:8000/api/v1/allergics/1/update
      */
     public function update(Request $request, $id)
     {
-        //
+       $allergic = Allergic::find($id);
+       if(empty($allergic))
+       {
+            return response()
+                -> json(array('message' => 'was not found'), 400);
+       }
+
+       $input = $request->getContent();
+       $input = json_decode($input, true);
+
+       if(isset($input['allergic'])){
+           $input = $input['allergic'];
+           $allergic->name = $input['name'];
+           $allergic->avoid = $input['avoid'];
+           $allergic->take_care = $input['take_care'];
+       }          
+       else{
+           $input = array();
+       }
+       if($allergic->save($input)){
+          return response()
+                 ->json(array("id" => $allergic->id, "updated_at" => $allergic->updated_at), 200);
+       }
+
+       return response()
+             -> json(array('errors' => $allergic->errors, "message" => 'failed to update'), 400);
+
+
     }
 
     /**
@@ -86,6 +126,20 @@ class AllergicsController extends BaseController
      */
     public function destroy($id)
     {
-        //
+
+       $allergic = Allergic::find($id);
+       if(empty($allergic))
+       {
+            return response()
+                -> json(array('message' => 'was not found'), 400);
+       }
+
+       if($allergic->delete()){
+          return response()
+                 ->json(array("message" => "succesfully removed"), 200);
+       }
+
+       return response()
+             -> json(array("message" => 'failed to destroy'), 400);
     }
 }
